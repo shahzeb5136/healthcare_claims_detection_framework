@@ -3,7 +3,21 @@ __pycache__/
 .venv/
 venv/
 .env
+.DS_Store
+
+# Credentials — never commit these.
+api key.txt
+*api*key*.txt
+*.key
+*.pem
 .streamlit/secrets.toml
+
+# Local tooling state
+.claude/settings.local.json
+
+# Google Drive folder metadata
+desktop.ini
+
+# Spreadsheets are data, not source. sample_claims.xlsx is kept as a fixture.
 *.xlsx
 !sample_claims.xlsx
-.DS_Store

@@ -1,5 +1,10 @@
-streamlit>=1.36
+streamlit>=1.32
 pandas>=2.0
 openpyxl>=3.1
+
+# Model providers — install the one you intend to use. Anthropic is the default.
+anthropic>=0.40
 openai>=1.30
-ollama>=0.3
+
+# Optional: fully local inference, nothing leaves the machine.
+# ollama>=0.3
