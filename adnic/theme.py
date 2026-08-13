@@ -201,18 +201,52 @@ CSS = f"""
   section[data-testid="stSidebar"] {{
       background: {INK}; border-right: none;
   }}
+  /* Sidebar chrome — labels, captions, nav — is light on the navy.
+     NOTE: a universal selector matches a widget's innermost text element
+     *directly*, which beats any colour inherited from the widget's container.
+     So every form control below restates its colour with !important rather
+     than relying on inheritance. */
   section[data-testid="stSidebar"] * {{ color: #E3EAF1; }}
   section[data-testid="stSidebar"] h1,
   section[data-testid="stSidebar"] h2,
   section[data-testid="stSidebar"] h3 {{ color: #FFFFFF; }}
   section[data-testid="stSidebar"] .stRadio label p {{ font-size: .90rem; }}
   section[data-testid="stSidebar"] hr {{ border-color: rgba(255,255,255,.14); }}
+
+  /* Form controls: white field, ink text. Deliberately not a translucent dark
+     field — that depends on BaseWeb's nesting, which differs across Streamlit
+     versions and silently degrades to white-on-white when it stops matching. */
+  section[data-testid="stSidebar"] div[data-baseweb="select"] > div,
+  section[data-testid="stSidebar"] div[data-baseweb="input"],
+  section[data-testid="stSidebar"] div[data-baseweb="base-input"],
   section[data-testid="stSidebar"] input,
-  section[data-testid="stSidebar"] textarea,
-  section[data-testid="stSidebar"] div[data-baseweb="select"] > div {{
-      background: rgba(255,255,255,.08) !important;
-      border-color: rgba(255,255,255,.18) !important;
-      color: #FFFFFF !important;
+  section[data-testid="stSidebar"] textarea {{
+      background-color: #FFFFFF !important;
+      border-color: rgba(255,255,255,.30) !important;
+  }}
+  section[data-testid="stSidebar"] div[data-baseweb="select"],
+  section[data-testid="stSidebar"] div[data-baseweb="select"] *,
+  section[data-testid="stSidebar"] div[data-baseweb="input"] *,
+  section[data-testid="stSidebar"] div[data-baseweb="base-input"] *,
+  section[data-testid="stSidebar"] input,
+  section[data-testid="stSidebar"] textarea {{
+      color: {INK} !important;
+      -webkit-text-fill-color: {INK} !important;
+  }}
+  section[data-testid="stSidebar"] input::placeholder {{
+      color: {MUTED} !important; -webkit-text-fill-color: {MUTED} !important;
+  }}
+  section[data-testid="stSidebar"] div[data-baseweb="select"] svg,
+  section[data-testid="stSidebar"] [data-testid="stTextInput"] button svg {{
+      fill: {INK_SOFT} !important; color: {INK_SOFT} !important;
+  }}
+  section[data-testid="stSidebar"] .stButton > button {{
+      background: #FFFFFF !important;
+      border-color: rgba(255,255,255,.30) !important;
+  }}
+  section[data-testid="stSidebar"] .stButton > button * {{ color: {INK} !important; }}
+  section[data-testid="stSidebar"] .stButton > button:hover {{
+      background: #E9EFF4 !important; border-color: #FFFFFF !important;
   }}
   .sidebar-brand {{
       font-size: 1.05rem; font-weight: 680; color: #FFFFFF; letter-spacing: -.01em;
