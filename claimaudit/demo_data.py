@@ -47,7 +47,7 @@ def _mk(
 # --------------------------------------------------------------------------
 
 _PLAN = dict(
-    plan_code="ADN-COMP-GOLD-2026",
+    plan_code="HC-COMP-GOLD-2026",
     policy_start="2026-01-01",
     policy_end="2026-12-31",
     network_tier="Gold",

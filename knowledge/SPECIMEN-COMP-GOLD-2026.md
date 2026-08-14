@@ -1,14 +1,14 @@
-# ADNIC Comprehensive Medical Plan — Policy Wording and Table of Benefits
+# Comprehensive Medical Plan — Specimen Policy Wording and Table of Benefits
 
-**Source ID:** ADNIC-POL-GOLD
-**Document title:** ADNIC Comprehensive Medical Plan — Policy Wording and Table of Benefits
-**Plan code:** ADN-COMP-GOLD-2026
+**Source ID:** SPEC-POL-GOLD
+**Document title:** Comprehensive Medical Plan — Specimen Policy Wording and Table of Benefits
+**Plan code:** HC-COMP-GOLD-2026
 **Version:** V2026.1
 **Effective from:** 2026-01-01
-**Issued by:** Abu Dhabi National Insurance Company PJSC
+**Issued by:** Specimen Health Insurance Company PJSC
 **Regulatory basis:** Department of Health – Abu Dhabi (DoH) Basic Product and Enhanced Product rules; UAE Insurance Authority Health Insurance Regulations
 
-> DEMONSTRATION DOCUMENT. This wording is synthetic and was authored for the ADNIC Agentic Medical Claims Audit Platform demonstrator. It is structurally realistic but is not a real insurance contract and must not be relied on for any adjudication decision.
+> DEMONSTRATION DOCUMENT. This wording is synthetic and was authored for the Agentic Medical Claims Audit Platform demonstrator. It is structurally realistic — UAE market conventions, a DoH-style benefit structure, numbered and cross-referenced clauses — but it is not a real insurance contract, it describes no real insurer's product, and it must not be relied on for any adjudication decision. Replace it with the insurer's own wording to demonstrate against a real book.
 
 ---
 

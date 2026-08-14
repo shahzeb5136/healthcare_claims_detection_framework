@@ -2,7 +2,7 @@
 The agent fleet for the demonstrator.
 
 The proposal specifies 62 agents across nine squads. This demonstrator builds
-28 of them — the squads that can be shown honestly without ADNIC's licensed
+28 of them — the squads that can be shown honestly without the insurer's licensed
 code sets, tariff files, provider contracts or historical claim store:
 
     Squad B — Coding integrity ................ 10 agents  (knowledge: model memory)
@@ -766,7 +766,7 @@ OUT_OF_SCOPE = [
         "squad": "D",
         "name": "Financial and tariff integrity",
         "agents": 8,
-        "why": "Needs the DoH Mandatory Tariff, ADNIC's provider contracts and rate cards, and the "
+        "why": "Needs the DoH Mandatory Tariff, the insurer's provider contracts and rate cards, and the "
                "IR-DRG grouper. Recalculating a price without the price list is theatre.",
     },
     {

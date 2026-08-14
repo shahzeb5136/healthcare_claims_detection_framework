@@ -1,5 +1,5 @@
 """
-ADNIC — Agentic Medical Claims Audit Platform
+Agentic Medical Claims Audit Platform
 Demonstrator
 
 A 28-agent fleet audits medical claims across coding integrity, clinical
@@ -19,14 +19,14 @@ from pathlib import Path
 
 import streamlit as st
 
-from adnic import theme
-from adnic.catalogue import default_fleet
-from adnic.demo_data import build_demo_claims
-from adnic.llm import LLMConfig
-from adnic.retrieval import PolicyCorpus
+from claimaudit import branding, theme
+from claimaudit.catalogue import default_fleet
+from claimaudit.demo_data import build_demo_claims
+from claimaudit.llm import LLMConfig
+from claimaudit.retrieval import PolicyCorpus
 
 st.set_page_config(
-    page_title="ADNIC · Agentic Claims Audit",
+    page_title=branding.page_title(),
     page_icon="◈",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -34,7 +34,7 @@ st.set_page_config(
 
 theme.inject()
 
-POLICY_PATH = Path(__file__).parent / "knowledge" / "ADNIC-COMP-GOLD-2026.md"
+POLICY_PATH = Path(__file__).parent / "knowledge" / "SPECIMEN-COMP-GOLD-2026.md"
 
 
 # --------------------------------------------------------------------------
@@ -122,8 +122,8 @@ if _pending in PAGES:
 
 with st.sidebar:
     st.markdown(
-        '<div class="sidebar-brand">ADNIC'
-        "<span>Agentic Claims Audit · Demonstrator</span></div>",
+        f'<div class="sidebar-brand">{theme.esc(branding.brand_title())}'
+        f"<span>{theme.esc(branding.brand_subtitle())}</span></div>",
         unsafe_allow_html=True,
     )
     st.markdown("---")
@@ -133,8 +133,11 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("**Model access**")
 
-    from adnic.llm import (
+    from claimaudit.llm import (
         ANTHROPIC_MODELS,
+        CORE42,
+        CORE42_MODELS,
+        CORE42_NOTE,
         OPENAI_MODELS,
         PROVIDERS,
         REASONING_MODES,
@@ -167,6 +170,26 @@ with st.sidebar:
         cfg.api_key = st.text_input(
             "OpenAI API key", value=cfg.api_key, type="password",
             help="Held in memory for this browser session only.",
+        )
+    elif cfg.provider == CORE42:
+        ids = [m[0] for m in CORE42_MODELS]
+        cfg.model = st.selectbox(
+            "Model", ids, index=ids.index(cfg.model) if cfg.model in ids else 0,
+            help="\n\n".join(f"**{m}** — {d}" for m, d in CORE42_MODELS),
+        )
+        st.text_input(
+            "Core42 endpoint", value="", placeholder="not configured",
+            disabled=True,
+        )
+        st.markdown(
+            '<div style="border:1px solid rgba(255,255,255,.22);'
+            "border-left:3px solid #0E7C7B;border-radius:6px;padding:.55rem .7rem;"
+            'font-size:.78rem;line-height:1.55;color:#C7D5E2;margin-top:.2rem">'
+            "<strong style=\"color:#FFFFFF\">Data sovereignty · illustrative</strong><br>"
+            "Inference inside the UAE. Claim data never leaves the jurisdiction to be "
+            "audited. Not connected in this demonstrator."
+            "</div>",
+            unsafe_allow_html=True,
         )
     else:
         cfg.model = st.text_input("Ollama model", value=cfg.model or "llama3.1")
@@ -210,26 +233,26 @@ if CORPUS is None:
 page = st.session_state.nav
 
 if page == "Scope and method":
-    from adnic.views import overview
+    from claimaudit.views import overview
     overview.render(CORPUS, goto)
 elif page == "Claims":
-    from adnic.views import claims as claims_view
+    from claimaudit.views import claims as claims_view
     claims_view.render(goto)
 elif page == "Agent fleet":
-    from adnic.views import fleet as fleet_view
+    from claimaudit.views import fleet as fleet_view
     fleet_view.render()
 elif page == "Knowledge base":
-    from adnic.views import knowledge
+    from claimaudit.views import knowledge
     knowledge.render(CORPUS)
 elif page == "Run audit":
-    from adnic.views import run as run_view
+    from claimaudit.views import run as run_view
     run_view.render(CORPUS, goto)
 elif page == "Audit cockpit":
-    from adnic.views import cockpit
+    from claimaudit.views import cockpit
     cockpit.render(goto)
 elif page == "Claim review workbench":
-    from adnic.views import workbench
+    from claimaudit.views import workbench
     workbench.render(goto)
 elif page == "Export":
-    from adnic.views import export as export_view
+    from claimaudit.views import export as export_view
     export_view.render()

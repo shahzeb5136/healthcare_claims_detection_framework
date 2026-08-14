@@ -96,7 +96,7 @@ CLAIMS_COLUMNS: list[ColumnSpec] = [
     ColumnSpec("Policy Number", True, "text", "Policy or scheme identifier.", "POL-CORP-88214"),
     ColumnSpec("Plan Code", True, "text",
                "Product code. Selects the policy wording used by Squad E.",
-               "ADN-COMP-GOLD-2026"),
+               "HC-COMP-GOLD-2026"),
     ColumnSpec("Policy Start", True, "date", "Policy period start (YYYY-MM-DD).", "2026-01-01"),
     ColumnSpec("Policy End", True, "date", "Policy period end (YYYY-MM-DD).", "2026-12-31"),
     ColumnSpec("Scheme Inception", True, "date",

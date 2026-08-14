@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "adnic-demo",
+      "name": "claims-audit-demo",
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "streamlit", "run", "app.py", "--server.port", "8503", "--server.headless", "true"],
       "port": 8503

@@ -163,8 +163,8 @@ def _pane_context(claim, res) -> None:
             for d in sorted(claim.diagnoses, key=lambda x: x.sequence)
         )
         st.markdown(
-            f'<div class="adnic-panel"><div class="adnic-panel-head">Diagnoses</div>'
-            f'<div class="adnic-panel-body lines"><table>{rows}</table></div></div>',
+            f'<div class="ca-panel"><div class="ca-panel-head">Diagnoses</div>'
+            f'<div class="ca-panel-body lines"><table>{rows}</table></div></div>',
             unsafe_allow_html=True,
         )
 
@@ -183,8 +183,8 @@ def _pane_context(claim, res) -> None:
                 f"<td class='num'>{a.gross_amount:,.2f}</td></tr>"
             )
         st.markdown(
-            f'<div class="adnic-panel"><div class="adnic-panel-head">Billed lines</div>'
-            f'<div class="adnic-panel-body lines"><table>{rows}</table></div></div>',
+            f'<div class="ca-panel"><div class="ca-panel-head">Billed lines</div>'
+            f'<div class="ca-panel-body lines"><table>{rows}</table></div></div>',
             unsafe_allow_html=True,
         )
 
@@ -215,7 +215,7 @@ def _pane_findings(claim, res) -> None:
 
     if not findings:
         st.markdown(
-            f'<div class="adnic-card" style="border-top:3px solid #16704A">'
+            f'<div class="ca-card" style="border-top:3px solid #16704A">'
             f"<h4>No findings raised</h4>"
             f"<p>Every agent that applies to this claim returned <code>no_finding</code> or "
             f"<code>not_applicable</code>. That is a result, not an absence of one — "
@@ -408,7 +408,7 @@ def _pane_decision(claim, res) -> None:
     elif h3:
         disposition = str(h3.get("disposition", "—")).replace("_", " ")
         st.markdown(
-            f'<div class="adnic-card" style="border-top:3px solid {theme.ACCENT}">'
+            f'<div class="ca-card" style="border-top:3px solid {theme.ACCENT}">'
             f'<div style="font-size:.68rem;font-weight:660;letter-spacing:.09em;'
             f'text-transform:uppercase;color:{theme.MUTED}">H03 recommends</div>'
             f'<div style="font-size:1.18rem;font-weight:660;color:{theme.INK};'
@@ -451,8 +451,8 @@ def _pane_decision(claim, res) -> None:
     pending = [f for f in res.open_findings() if f.human_decision == "pending"]
 
     st.markdown(
-        f'<div class="adnic-panel"><div class="adnic-panel-head">Settlement arithmetic</div>'
-        f'<div class="adnic-panel-body lines">'
+        f'<div class="ca-panel"><div class="ca-panel-head">Settlement arithmetic</div>'
+        f'<div class="ca-panel-body lines">'
         f"<table><thead><tr><th>Agent</th><th>Line</th><th>Basis</th>"
         f"<th>Deduct</th></tr></thead><tbody>{rows}</tbody></table>"
         f'<div style="border-top:1px solid {theme.LINE};margin-top:.5rem;padding-top:.5rem">'
@@ -592,7 +592,7 @@ def _synthesis_tabs(res) -> None:
                 )
             for c in conflicts:
                 st.markdown(
-                    f'<div class="adnic-card"><h4>{theme.esc(c.get("question", ""))}</h4>'
+                    f'<div class="ca-card"><h4>{theme.esc(c.get("question", ""))}</h4>'
                     f'<p><strong>A:</strong> {theme.esc(c.get("position_a", ""))}<br>'
                     f'<strong>B:</strong> {theme.esc(c.get("position_b", ""))}<br><br>'
                     f'<strong>Better supported:</strong> {theme.esc(c.get("better_supported", ""))} '
@@ -616,8 +616,8 @@ def _synthesis_tabs(res) -> None:
                 for d in (h03.get("deductions", []) or [])
             ) or "<tr><td colspan='4' style='color:#6B7C8F'>No deductions proposed.</td></tr>"
             st.markdown(
-                f'<div class="adnic-panel"><div class="adnic-panel-head">'
-                f'Proposed deductions</div><div class="adnic-panel-body lines">'
+                f'<div class="ca-panel"><div class="ca-panel-head">'
+                f'Proposed deductions</div><div class="ca-panel-body lines">'
                 f"<table><thead><tr><th>Line</th><th>Reason</th><th>Agent</th>"
                 f"<th>Amount</th></tr></thead><tbody>{rows}</tbody></table></div></div>",
                 unsafe_allow_html=True,
@@ -649,20 +649,20 @@ def _synthesis_tabs(res) -> None:
         else:
             st.markdown("##### Internal audit rationale")
             st.markdown(
-                f'<div class="adnic-card"><p>{theme.esc(h04.get("internal_rationale", ""))}</p></div>',
+                f'<div class="ca-card"><p>{theme.esc(h04.get("internal_rationale", ""))}</p></div>',
                 unsafe_allow_html=True,
             )
             p1, p2 = st.columns(2)
             with p1:
                 st.markdown("##### Provider communication — English")
                 st.markdown(
-                    f'<div class="adnic-card"><p>{theme.esc(h04.get("provider_letter_en", ""))}</p></div>',
+                    f'<div class="ca-card"><p>{theme.esc(h04.get("provider_letter_en", ""))}</p></div>',
                     unsafe_allow_html=True,
                 )
             with p2:
                 st.markdown("##### Provider communication — Arabic")
                 st.markdown(
-                    f'<div class="adnic-card" dir="rtl" lang="ar">'
+                    f'<div class="ca-card" dir="rtl" lang="ar">'
                     f'<p style="text-align:right">{theme.esc(h04.get("provider_letter_ar", ""))}</p>'
                     f"</div>",
                     unsafe_allow_html=True,

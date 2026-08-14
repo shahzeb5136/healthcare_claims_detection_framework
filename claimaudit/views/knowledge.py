@@ -13,7 +13,7 @@ def render(corpus) -> None:
     theme.page_header(
         "Knowledge base",
         "The difference between a finding and an opinion is a citation",
-        "Squad E does not remember ADNIC's policy terms — it retrieves them. One full policy "
+        "Squad E does not remember the insurer's policy terms — it retrieves them. One full policy "
         "wording is loaded, chunked on clause boundaries and indexed with BM25 inside the "
         "application process. No external vector database, no embedding service, no network "
         "call for retrieval.",
@@ -107,11 +107,11 @@ def render(corpus) -> None:
                     else theme.pill(h.why, "#7A4CA0", "#F2EBF8")
                 )
                 st.markdown(
-                    f'<div class="adnic-panel">'
-                    f'<div class="adnic-panel-head">'
+                    f'<div class="ca-panel">'
+                    f'<div class="ca-panel-head">'
                     f"{theme.esc(c.locator)} &nbsp;·&nbsp; {theme.esc(c.heading)} "
                     f'&nbsp;<span class="tag">score {h.score}</span> {why_pill}</div>'
-                    f'<div class="adnic-panel-body">'
+                    f'<div class="ca-panel-body">'
                     f'<div style="font-size:.74rem;color:{theme.MUTED};margin-bottom:.4rem">'
                     f"{theme.esc(c.section)}</div>"
                     f'<div style="font-size:.87rem;color:{theme.INK_SOFT};line-height:1.65;'
@@ -186,7 +186,7 @@ def render(corpus) -> None:
         theme.notice(
             "<strong>Where this goes in production.</strong> The corpus grows to the DoH "
             "Claims and Adjudication Rules, the Mandatory Tariff, the Drug List, the licensed "
-            "code sets, the clinical guideline library and every ADNIC product wording — "
+            "code sets, the clinical guideline library and every product wording the insurer issues — "
             "served by hybrid retrieval over Databricks AI Search, with sources versioned on "
             "acquisition and superseded content quarantined rather than overwritten, and a "
             "currency sentinel blocking agents from citing content once a replacement is in "

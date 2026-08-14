@@ -5,7 +5,14 @@ from __future__ import annotations
 import streamlit as st
 
 from .. import theme
-from ..llm import PRICING, ProviderError, build_client, estimate_cost
+from ..llm import (
+    CORE42,
+    CORE42_NOTE,
+    PRICING,
+    ProviderError,
+    build_client,
+    estimate_cost,
+)
 from ..orchestrator import RunOptions, run_book, run_tier0_only
 
 
@@ -144,7 +151,17 @@ def render(corpus, goto) -> None:
     if not enabled:
         problems.append("Enable at least one agent in the Agent Studio.")
         ready = False
-    if cfg.provider in ("Anthropic", "OpenAI") and not cfg.api_key:
+    if cfg.provider == CORE42:
+        theme.notice(
+            f"<strong>Core42 selected — in-country inference.</strong> {CORE42_NOTE}",
+            kind="info",
+        )
+        problems.append(
+            "Core42 is illustrative in this demonstrator and makes no calls. Switch "
+            "provider to run the fleet, or use the deterministic checks below."
+        )
+        ready = False
+    elif cfg.provider in ("Anthropic", "OpenAI") and not cfg.api_key:
         problems.append(f"Add your {cfg.provider} API key in the sidebar.")
         ready = False
     if corpus is None and any(a.knowledge_mode == "rag_policy" for a in enabled):

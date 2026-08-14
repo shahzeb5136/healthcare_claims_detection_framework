@@ -92,7 +92,7 @@ def _finding(
         line_ref=line_ref,
         citations=[
             Citation(
-                source_id="ADNIC-CANON",
+                source_id="CANON",
                 source_name="Canonical claim model and arithmetic rules",
                 version=TIER0_VERSION,
                 locator=check_id,

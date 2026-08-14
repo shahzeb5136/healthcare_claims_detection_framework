@@ -2,7 +2,7 @@
 Canonical claim model and the uniform agent output contract.
 
 The shapes here follow Appendix B (canonical claim model) and Appendix C
-(agent output schema) of the ADNIC proposal. Everything is plain dataclasses
+(agent output schema) of the platform proposal. Everything is plain dataclasses
 and dicts — no ORM, no database. A demo run holds the whole book of claims in
 session state.
 """

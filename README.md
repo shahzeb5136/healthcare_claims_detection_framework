@@ -1,10 +1,12 @@
-# ADNIC — Agentic Medical Claims Audit Platform (demonstrator)
+# Agentic Medical Claims Audit Platform (demonstrator)
 
-A working demonstrator of the platform described in *ADNIC — Agentic Medical Claims Audit
-Platform, Proposal v1.0*. A fleet of specialist agents audits medical claims across coding
-integrity, clinical appropriateness and policy adjudication, consolidates the findings into
-one reviewable decision, and hands it to a human. Nothing reaches a payment decision without
-a person.
+A fleet of specialist agents audits medical claims across coding integrity, clinical
+appropriateness and policy adjudication, consolidates the findings into one reviewable
+decision, and hands it to a human. Nothing reaches a payment decision without a person.
+
+The platform is **insurer-agnostic**. Everything a viewer sees is driven from
+`claimaudit/branding.py` — set `CLIENT_NAME` to carry a prospect's name through the
+sidebar, page titles and export filenames, or leave it blank for a neutral surface.
 
 ```bash
 pip install -r requirements.txt
@@ -15,12 +17,21 @@ Bring your own API key — Anthropic by default, OpenAI or a local Ollama model 
 alternatives. Keys are held in memory for the browser session only. The deterministic
 checks and the whole UI work with no key at all.
 
+**Core42 (UAE sovereign)** appears in the provider list as an illustration of in-country
+inference and is deliberately **not wired up**. Health claim data is personal data under the
+UAE PDPL and sits inside ADHICS; an insurer that cannot keep inference in-country cannot put
+this platform into production, whatever the audit quality. Selecting it shows what that
+placement looks like and refuses to run — it does not silently fall back to another
+provider, because a sovereignty control that quietly routes offshore is worse than none.
+Connecting it is an endpoint and credential change: the agent contract, the retrieval layer
+and the workbench are provider-agnostic.
+
 ---
 
 ## What is built, and what is not
 
 The proposal specifies **62 agents across nine squads**. This demonstrator builds **28** —
-the squads that can be shown honestly without ADNIC's licensed code sets, tariff files,
+the squads that can be shown honestly without the insurer's licensed code sets, tariff files,
 provider contracts or historical claim store.
 
 | | Squad | Agents | Knowledge source here |
@@ -36,7 +47,7 @@ Deliberately out of scope, and why:
 | Squad | Agents | Why |
 |---|---|---|
 | **A** — Intake, data quality, eligibility | 6 | Needs the Shafafiya / eClaimLink schema and a live policy administration extract. |
-| **D** — Financial and tariff integrity | 8 | Needs the DoH Mandatory Tariff, ADNIC's rate cards and the IR-DRG grouper. Recalculating a price without the price list is theatre. |
+| **D** — Financial and tariff integrity | 8 | Needs the DoH Mandatory Tariff, the insurer's rate cards and the IR-DRG grouper. Recalculating a price without the price list is theatre. |
 | **F** — Fraud, waste and abuse | 8 | Operates across claims, not on one claim. Needs a historical claim store and peer distributions. |
 | **G** — Regulatory and standards compliance | 5 | Needs the DoH Claims and Adjudication Rules corpus and denial code lists. |
 | **I** — Assurance and oversight | 6 | Needs a golden dataset and live auditor decision history before precision, calibration or drift can be measured rather than asserted. |
@@ -73,7 +84,7 @@ practice. Anything they cite is displayed to the auditor marked **unverified**, 
 agents are instructed to say "general coding practice" rather than invent a clause number.
 
 **Squad E — grounded retrieval.** One full policy wording
-(`knowledge/ADNIC-COMP-GOLD-2026.md`, ~5,000 words, 78 numbered clauses) is chunked on
+(`knowledge/SPECIMEN-COMP-GOLD-2026.md`, ~5,000 words, 78 numbered clauses) is chunked on
 clause boundaries and indexed with **BM25 in-process**. No external vector database, no
 embedding service, no network call for retrieval. Three passes:
 
@@ -155,7 +166,8 @@ is why the design triages rather than brute-forces.
 
 ```
 app.py                      Streamlit entry, navigation, session state
-adnic/
+claimaudit/
+  branding.py               product name, client name, export filenames
   catalogue.py              the 28 agent specifications
   schema.py                 canonical claim model + the uniform agent output contract
   deterministic.py          Tier 0 checks and the risk gate
@@ -167,7 +179,7 @@ adnic/
   theme.py                  the visual system
   views/                    one module per page
 knowledge/
-  ADNIC-COMP-GOLD-2026.md   the synthetic policy corpus
+  SPECIMEN-COMP-GOLD-2026.md   the synthetic policy corpus
 legacy_app.py               the original single-file demonstrator, preserved
 ```
 
@@ -176,8 +188,10 @@ legacy_app.py               the original single-file demonstrator, preserved
 ## Disclaimers
 
 All claims, members, providers and the policy wording are **synthetic**. The policy wording
-is structurally realistic but is not a real insurance contract and must not be relied on for
-any adjudication decision.
+is structurally realistic — UAE market conventions, a DoH-style benefit structure, numbered
+and cross-referenced clauses — but it is not a real insurance contract, it describes no real
+insurer's product, and it must not be relied on for any adjudication decision. Replace it
+with the insurer's own wording to demonstrate against a real book.
 
 This is a **decision-support and screening tool**, not a substitute for professional
 medical, coding or compliance review. It is a demonstrator, not the production platform:

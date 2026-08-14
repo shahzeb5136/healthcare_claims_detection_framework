@@ -70,59 +70,59 @@ CSS = f"""
   h3 {{ font-size: 1.02rem; font-weight: 620; }}
 
   /* ---------- page header ---------- */
-  .adnic-eyebrow {{
+  .ca-eyebrow {{
       font-size: .70rem; font-weight: 680; letter-spacing: .12em;
       text-transform: uppercase; color: {ACCENT}; margin-bottom: .3rem;
   }}
-  .adnic-title {{
+  .ca-title {{
       font-size: 1.66rem; font-weight: 660; color: {INK};
       letter-spacing: -0.015em; line-height: 1.2; margin: 0;
   }}
-  .adnic-sub {{
+  .ca-sub {{
       color: {MUTED}; font-size: .93rem; margin-top: .42rem;
       max-width: 76ch; line-height: 1.55;
   }}
-  .adnic-rule {{
+  .ca-rule {{
       height: 3px; width: 54px; background: {ACCENT};
       border-radius: 2px; margin: .95rem 0 1.15rem 0;
   }}
 
   /* ---------- cards ---------- */
-  .adnic-card {{
+  .ca-card {{
       background: {SURFACE}; border: 1px solid {LINE}; border-radius: 10px;
       padding: 1.05rem 1.2rem; margin-bottom: .85rem;
       box-shadow: 0 1px 2px rgba(15,44,76,.04);
   }}
-  .adnic-card h4 {{ margin: 0 0 .45rem 0; font-size: .96rem; }}
-  .adnic-card p {{ margin: 0; color: {INK_SOFT}; font-size: .89rem; line-height: 1.6; }}
+  .ca-card h4 {{ margin: 0 0 .45rem 0; font-size: .96rem; }}
+  .ca-card p {{ margin: 0; color: {INK_SOFT}; font-size: .89rem; line-height: 1.6; }}
 
-  .adnic-panel {{
+  .ca-panel {{
       background: {SURFACE}; border: 1px solid {LINE}; border-radius: 10px;
       padding: 0; margin-bottom: .9rem; overflow: hidden;
   }}
-  .adnic-panel-head {{
+  .ca-panel-head {{
       background: #FAFBFC; border-bottom: 1px solid {LINE};
       padding: .62rem .95rem; font-size: .72rem; font-weight: 680;
       letter-spacing: .09em; text-transform: uppercase; color: {INK_SOFT};
   }}
-  .adnic-panel-body {{ padding: .9rem 1.05rem; }}
+  .ca-panel-body {{ padding: .9rem 1.05rem; }}
 
   /* ---------- metric tiles ---------- */
-  .adnic-tiles {{ display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1rem; }}
-  .adnic-tile {{
+  .ca-tiles {{ display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1rem; }}
+  .ca-tile {{
       flex: 1 1 150px; background: {SURFACE}; border: 1px solid {LINE};
       border-radius: 10px; padding: .8rem .95rem; min-width: 138px;
       border-top: 3px solid {ACCENT};
   }}
-  .adnic-tile .lbl {{
+  .ca-tile .lbl {{
       font-size: .68rem; font-weight: 660; letter-spacing: .085em;
       text-transform: uppercase; color: {MUTED};
   }}
-  .adnic-tile .val {{
+  .ca-tile .val {{
       font-size: 1.5rem; font-weight: 660; color: {INK};
       line-height: 1.15; margin-top: .28rem; font-variant-numeric: tabular-nums;
   }}
-  .adnic-tile .hint {{ font-size: .755rem; color: {MUTED}; margin-top: .22rem; }}
+  .ca-tile .hint {{ font-size: .755rem; color: {MUTED}; margin-top: .22rem; }}
 
   /* ---------- pills ---------- */
   .pill {{
@@ -306,12 +306,12 @@ def esc(text) -> str:
 
 
 def page_header(eyebrow: str, title: str, subtitle: str = "") -> None:
-    sub = f'<div class="adnic-sub">{esc(subtitle)}</div>' if subtitle else ""
+    sub = f'<div class="ca-sub">{esc(subtitle)}</div>' if subtitle else ""
     st.markdown(
-        f'<div class="adnic-eyebrow">{esc(eyebrow)}</div>'
-        f'<div class="adnic-title">{esc(title)}</div>'
+        f'<div class="ca-eyebrow">{esc(eyebrow)}</div>'
+        f'<div class="ca-title">{esc(title)}</div>'
         f"{sub}"
-        f'<div class="adnic-rule"></div>',
+        f'<div class="ca-rule"></div>',
         unsafe_allow_html=True,
     )
 
@@ -319,13 +319,13 @@ def page_header(eyebrow: str, title: str, subtitle: str = "") -> None:
 def tiles(items: list[tuple[str, str, str]], accent: str = ACCENT) -> None:
     """items: (label, value, hint)"""
     cells = "".join(
-        f'<div class="adnic-tile" style="border-top-color:{accent}">'
+        f'<div class="ca-tile" style="border-top-color:{accent}">'
         f'<div class="lbl">{esc(lbl)}</div>'
         f'<div class="val">{esc(val)}</div>'
         f'<div class="hint">{esc(hint)}</div></div>'
         for lbl, val, hint in items
     )
-    st.markdown(f'<div class="adnic-tiles">{cells}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="ca-tiles">{cells}</div>', unsafe_allow_html=True)
 
 
 def pill(text: str, fg: str, bg: str) -> str:
@@ -362,15 +362,15 @@ def notice(text: str, kind: str = "warn") -> None:
 
 def card(title: str, body: str) -> None:
     st.markdown(
-        f'<div class="adnic-card"><h4>{esc(title)}</h4><p>{body}</p></div>',
+        f'<div class="ca-card"><h4>{esc(title)}</h4><p>{body}</p></div>',
         unsafe_allow_html=True,
     )
 
 
 def panel_open(title: str) -> None:
     st.markdown(
-        f'<div class="adnic-panel"><div class="adnic-panel-head">{esc(title)}</div>'
-        f'<div class="adnic-panel-body">',
+        f'<div class="ca-panel"><div class="ca-panel-head">{esc(title)}</div>'
+        f'<div class="ca-panel-body">',
         unsafe_allow_html=True,
     )
 

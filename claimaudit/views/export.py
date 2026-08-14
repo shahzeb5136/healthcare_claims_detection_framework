@@ -9,7 +9,7 @@ from datetime import datetime
 import pandas as pd
 import streamlit as st
 
-from .. import theme
+from .. import branding, theme
 from ..schema import dumps
 
 XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -151,7 +151,7 @@ def render() -> None:
         st.download_button(
             "Audit record (.xlsx)",
             data=buf.getvalue(),
-            file_name=f"ADNIC_audit_record_{stamp}.xlsx",
+            file_name=branding.export_name("audit_record", stamp),
             mime=XLSX_MIME,
             use_container_width=True,
         )
@@ -159,14 +159,14 @@ def render() -> None:
         st.download_button(
             "Findings register (.csv)",
             data=findings_df.to_csv(index=False).encode("utf-8"),
-            file_name=f"ADNIC_findings_{stamp}.csv",
+            file_name=branding.export_name("findings", stamp, "csv"),
             mime="text/csv",
             use_container_width=True,
         )
     with d3:
         payload = {
             "generated_at": datetime.now().isoformat(timespec="seconds"),
-            "platform": "ADNIC Agentic Medical Claims Audit — demonstrator",
+            "platform": "Agentic Medical Claims Audit — demonstrator",
             "provider": st.session_state.llm.provider,
             "model": st.session_state.llm.model,
             "claims": [
@@ -183,7 +183,7 @@ def render() -> None:
         st.download_button(
             "Full record (.json)",
             data=dumps(payload).encode("utf-8"),
-            file_name=f"ADNIC_audit_record_{stamp}.json",
+            file_name=branding.export_name("audit_record", stamp, "json"),
             mime="application/json",
             use_container_width=True,
         )

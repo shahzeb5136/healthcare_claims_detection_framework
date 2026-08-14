@@ -22,7 +22,9 @@ from typing import Any
 # Model menu
 # --------------------------------------------------------------------------
 
-PROVIDERS = ["Anthropic", "OpenAI", "Ollama (local)"]
+CORE42 = "Core42 (UAE sovereign)"
+
+PROVIDERS = ["Anthropic", "OpenAI", CORE42, "Ollama (local)"]
 
 ANTHROPIC_MODELS = [
     ("claude-opus-5", "Claude Opus 5 — highest capability, best for clinical judgement"),
@@ -35,6 +37,34 @@ OPENAI_MODELS = [
     ("gpt-4o", "GPT-4o"),
     ("gpt-4o-mini", "GPT-4o mini — fastest"),
 ]
+
+# ---------------------------------------------------------------------------
+# Core42 — PLACEHOLDER, NOT WIRED UP
+#
+# Present so the data-residency conversation can be had on the screen rather
+# than in the margin. Health claim data is personal data under the UAE PDPL and
+# sits inside ADHICS; an insurer that cannot keep inference in-country cannot
+# put this platform into production, whatever the audit quality.
+#
+# Selecting it shows what in-country inference would look like and refuses to
+# run. It deliberately does not silently fall back to another provider — a
+# sovereignty control that quietly routes offshore is worse than none.
+# ---------------------------------------------------------------------------
+
+CORE42_MODELS = [
+    ("jais-30b-chat", "JAIS 30B — Arabic-first model, useful for the bilingual "
+                      "provider correspondence Squad H produces"),
+    ("core42-frontier-hosted", "Frontier model on a Core42 in-country endpoint"),
+    ("core42-open-hosted", "Open-weight model on a Core42 in-country endpoint"),
+]
+
+CORE42_NOTE = (
+    "Illustrative only — no calls are made. This entry marks where in-country "
+    "inference would sit: prompts, retrieved policy clauses and generated findings "
+    "stay inside UAE jurisdiction, so claim data never crosses a border to be "
+    "audited. Wiring it up is an endpoint and credential change, not a redesign — "
+    "the agent contract, the retrieval layer and the workbench are provider-agnostic."
+)
 
 # Indicative USD per 1M tokens, used only for the run-cost estimate shown in the
 # UI. Not a billing source of truth.
@@ -113,6 +143,13 @@ def build_client(cfg: LLMConfig) -> Any:
         if not cfg.api_key:
             raise ProviderError("Add your OpenAI API key in the sidebar.")
         return openai.OpenAI(api_key=cfg.api_key, timeout=cfg.timeout_s, max_retries=2)
+
+    if cfg.provider == CORE42:
+        raise ProviderError(
+            "Core42 is shown as an illustration of in-country inference and is not "
+            "connected in this demonstrator. Pick Anthropic, OpenAI or Ollama to run "
+            "the fleet — or run the deterministic checks, which need no provider at all."
+        )
 
     if cfg.provider.startswith("Ollama"):
         try:

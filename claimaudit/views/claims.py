@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
-from .. import theme
+from .. import branding, theme
 from ..demo_data import build_demo_claims
 from ..deterministic import risk_band, risk_score, run_tier0
 from ..ingest import (
@@ -178,8 +178,8 @@ def _render_book(goto) -> None:
             for d in sorted(claim.diagnoses, key=lambda x: x.sequence)
         )
         st.markdown(
-            f'<div class="adnic-panel"><div class="adnic-panel-head">Diagnoses</div>'
-            f'<div class="adnic-panel-body lines"><table><thead><tr>'
+            f'<div class="ca-panel"><div class="ca-panel-head">Diagnoses</div>'
+            f'<div class="ca-panel-body lines"><table><thead><tr>'
             f"<th>Seq</th><th>Code</th><th>System</th><th>Type</th><th>Description</th>"
             f"</tr></thead><tbody>{dx_rows}</tbody></table></div></div>",
             unsafe_allow_html=True,
@@ -199,8 +199,8 @@ def _render_book(goto) -> None:
             for a in claim.activities
         )
         st.markdown(
-            f'<div class="adnic-panel"><div class="adnic-panel-head">Billed activities</div>'
-            f'<div class="adnic-panel-body lines"><table><thead><tr>'
+            f'<div class="ca-panel"><div class="ca-panel-head">Billed activities</div>'
+            f'<div class="ca-panel-body lines"><table><thead><tr>'
             f"<th>Line</th><th>Code</th><th>System</th><th>Description</th><th>Mod</th>"
             f"<th>Qty</th><th>Unit</th><th>Amount</th><th>Date</th>"
             f"</tr></thead><tbody>{act_rows}</tbody></table></div></div>",
@@ -245,7 +245,7 @@ def _render_upload() -> None:
         st.download_button(
             "Download the blank template (.xlsx)",
             data=build_template_workbook(),
-            file_name="ADNIC_claims_template.xlsx",
+            file_name=branding.export_name("claims_template"),
             mime=XLSX_MIME,
             use_container_width=True,
         )
@@ -253,7 +253,7 @@ def _render_upload() -> None:
         st.download_button(
             "Download the demonstration book (.xlsx)",
             data=build_demo_workbook(build_demo_claims()),
-            file_name="ADNIC_demonstration_claims.xlsx",
+            file_name=branding.export_name("demonstration_claims"),
             mime=XLSX_MIME,
             use_container_width=True,
             help="The fifteen demonstration claims exported in the upload format — the "
@@ -437,7 +437,7 @@ def _render_format() -> None:
     st.download_button(
         "Download the blank template (.xlsx)",
         data=build_template_workbook(),
-        file_name="ADNIC_claims_template.xlsx",
+        file_name=branding.export_name("claims_template"),
         mime=XLSX_MIME,
         key="format_tab_template",
     )

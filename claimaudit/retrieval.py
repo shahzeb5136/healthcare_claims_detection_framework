@@ -107,7 +107,7 @@ def chunk_policy(path: str | Path) -> list[Chunk]:
     """Split the policy markdown into one chunk per numbered clause."""
     raw = Path(path).read_text(encoding="utf-8")
     meta = _frontmatter(raw)
-    source_id = meta.get("source id", "ADNIC-POL")
+    source_id = meta.get("source id", "POLICY")
     source_name = meta.get("document title", Path(path).stem)
     version = meta.get("version", "V1")
     effective = meta.get("effective from", "")

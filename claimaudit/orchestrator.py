@@ -47,7 +47,7 @@ from .schema import (
 # ==========================================================================
 
 _CONTRACT = """You are one agent in a fleet of specialist medical claims audit agents working for
-ADNIC, a UAE health insurer. You answer exactly one question about one claim. Other
+a UAE health insurer. You answer exactly one question about one claim. Other
 agents cover everything else — do not stray outside your scope, and do not repeat their work.
 
 CHOOSING result — READ THIS TWICE, IT IS THE FIELD MOST OFTEN GOT WRONG
@@ -145,7 +145,7 @@ Rules:
 RETRIEVED CLAUSES FROM %(source)s (version %(version)s, effective %(effective)s)
 %(passages)s"""
 
-_SYNTHESIS_CONTRACT = """You are a synthesis agent in ADNIC's medical claims audit fleet. The audit squads have
+_SYNTHESIS_CONTRACT = """You are a synthesis agent in the insurer's medical claims audit fleet. The audit squads have
 finished. You do not re-audit the claim and you do not invent new findings — you work only
 from what the agents returned.
 

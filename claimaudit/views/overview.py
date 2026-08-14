@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import streamlit as st
 
-from .. import theme
+from .. import branding, theme
 from ..catalogue import OUT_OF_SCOPE, SQUADS
 
 
@@ -13,11 +13,11 @@ def render(corpus, goto) -> None:
     claims = st.session_state.claims
 
     theme.page_header(
-        "ADNIC · Agentic Medical Claims Audit Platform",
+        branding.eyebrow(),
         "A fleet of specialist agents, and a human who decides",
         "The production platform decomposes the medical audit function into 62 agents across "
         "nine squads. This demonstrator builds 28 of them — the squads that can be shown "
-        "honestly without ADNIC's licensed code sets, tariff files, provider contracts or "
+        "honestly without the insurer's licensed code sets, tariff files, provider contracts or "
         "historical claim store. Nothing here reaches a payment decision without a person.",
     )
 
@@ -80,10 +80,10 @@ def render(corpus, goto) -> None:
         colour = theme.SQUAD_COLOUR[code]
 
         st.markdown(
-            f'<div class="adnic-panel">'
-            f'<div class="adnic-panel-head" style="border-left:4px solid {colour}">'
+            f'<div class="ca-panel">'
+            f'<div class="ca-panel-head" style="border-left:4px solid {colour}">'
             f"Squad {code} — {theme.esc(meta['name'])} · {len(agents)} agents</div>"
-            f'<div class="adnic-panel-body">'
+            f'<div class="ca-panel-body">'
             f'<p style="margin:0 0 .55rem 0;color:{theme.INK_SOFT};font-size:.89rem;">'
             f"{theme.esc(meta['blurb'])} &nbsp;·&nbsp; "
             f"<strong>Knowledge:</strong> {theme.esc(knowledge)} &nbsp;·&nbsp; "
@@ -118,7 +118,7 @@ def render(corpus, goto) -> None:
         for o in OUT_OF_SCOPE
     )
     st.markdown(
-        f'<div class="adnic-panel"><div class="adnic-panel-body lines">'
+        f'<div class="ca-panel"><div class="ca-panel-body lines">'
         f"<table><thead><tr><th>Squad</th><th>Domain</th><th>Agents</th>"
         f"<th>Why it is out of scope here</th></tr></thead>"
         f"<tbody>{rows}</tbody></table></div></div>",
@@ -129,7 +129,7 @@ def render(corpus, goto) -> None:
     k1, k2 = st.columns(2)
     with k1:
         st.markdown(
-            f'<div class="adnic-card" style="border-top:3px solid #B4530A">'
+            f'<div class="ca-card" style="border-top:3px solid #B4530A">'
             f"<h4>Squads B and C — model memory</h4>"
             f"<p>The ICD-10, CPT and HCPCS code sets are licensed products and the "
             f"regulator's manuals are not in this repository, so these agents reason from "
@@ -142,7 +142,7 @@ def render(corpus, goto) -> None:
         )
     with k2:
         st.markdown(
-            f'<div class="adnic-card" style="border-top:3px solid {theme.ACCENT}">'
+            f'<div class="ca-card" style="border-top:3px solid {theme.ACCENT}">'
             f"<h4>Squad E — grounded retrieval</h4>"
             f"<p>One full policy wording is loaded, chunked on clause boundaries and indexed "
             f"with BM25 in-process. No external vector database. Each agent retrieves the "
