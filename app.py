@@ -1,6 +1,5 @@
 """
 Agentic Medical Claims Audit Platform
-Demonstrator
 
 A 28-agent fleet audits medical claims across coding integrity, clinical
 appropriateness and policy adjudication, then consolidates the findings into one
@@ -8,9 +7,6 @@ reviewable decision. Every finding goes to a human before it has any effect.
 
 Run with:
     streamlit run app.py
-
-This is a demonstrator, not the production platform. See the Scope page for what
-is built, what is deliberately not built, and why.
 """
 
 from __future__ import annotations
@@ -65,7 +61,7 @@ def init_state() -> None:
     if "selected_claim" not in ss:
         ss.selected_claim = None
     if "nav" not in ss:
-        ss.nav = "Scope and method"
+        ss.nav = "Overview"
     if "ingest_report" not in ss:
         ss.ingest_report = None
 
@@ -85,7 +81,7 @@ st.session_state["_corpus"] = CORPUS
 
 
 PAGES = [
-    "Scope and method",
+    "Overview",
     "Claims",
     "Agent fleet",
     "Knowledge base",
@@ -185,9 +181,9 @@ with st.sidebar:
             '<div style="border:1px solid rgba(255,255,255,.22);'
             "border-left:3px solid #0E7C7B;border-radius:6px;padding:.55rem .7rem;"
             'font-size:.78rem;line-height:1.55;color:#C7D5E2;margin-top:.2rem">'
-            "<strong style=\"color:#FFFFFF\">Data sovereignty · illustrative</strong><br>"
+            "<strong style=\"color:#FFFFFF\">Data sovereignty</strong><br>"
             "Inference inside the UAE. Claim data never leaves the jurisdiction to be "
-            "audited. Not connected in this demonstrator."
+            "audited. No endpoint is configured on this deployment."
             "</div>",
             unsafe_allow_html=True,
         )
@@ -232,7 +228,7 @@ if CORPUS is None:
 
 page = st.session_state.nav
 
-if page == "Scope and method":
+if page == "Overview":
     from claimaudit.views import overview
     overview.render(CORPUS, goto)
 elif page == "Claims":

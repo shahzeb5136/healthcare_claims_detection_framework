@@ -1,23 +1,22 @@
 """
-Branding for the demonstrator.
+Branding.
 
 The platform is insurer-agnostic. Everything a viewer sees is driven from here,
-so the surface can be neutral for a general demonstration or carry a prospect's
-name for a specific one — without touching any other module.
+so the surface can be neutral or carry a named insurer's — without touching any
+other module.
 
-To demonstrate to a named insurer, set CLIENT_NAME. Leave it blank for a
+To brand the platform for a named insurer, set CLIENT_NAME. Leave it blank for a
 neutral, unbranded surface.
 """
 
 from __future__ import annotations
 
-# Set to the insurer you are demonstrating to, e.g. "Gulf Health Insurance".
+# Set to the insurer the platform is deployed for, e.g. "Gulf Health Insurance".
 # Leave blank for a neutral surface.
 CLIENT_NAME = ""
 
 PRODUCT_NAME = "Agentic Claims Audit"
 PRODUCT_SUBTITLE = "Medical claims audit platform"
-DEMO_SUFFIX = "Demonstrator"
 
 # Prefix for downloaded files. Kept filesystem-safe.
 EXPORT_PREFIX = "claims_audit"
@@ -37,8 +36,8 @@ def brand_title() -> str:
 def brand_subtitle() -> str:
     """The line under the sidebar name."""
     if CLIENT_NAME:
-        return f"{PRODUCT_NAME} · {DEMO_SUFFIX}"
-    return f"{PRODUCT_SUBTITLE} · {DEMO_SUFFIX}"
+        return PRODUCT_NAME
+    return PRODUCT_SUBTITLE
 
 
 def page_title() -> str:

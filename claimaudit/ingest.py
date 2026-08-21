@@ -256,7 +256,7 @@ def build_template_workbook() -> bytes:
 
 
 def build_demo_workbook(claims: list[Claim]) -> bytes:
-    """Export a set of claims in the upload format — the demo book round-trips."""
+    """Export a set of claims in the upload format — the sample book round-trips."""
     claim_rows, act_rows, dx_rows = [], [], []
     for c in claims:
         claim_rows.append(

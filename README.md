@@ -1,11 +1,11 @@
-# Agentic Medical Claims Audit Platform (demonstrator)
+# Agentic Medical Claims Audit Platform
 
 A fleet of specialist agents audits medical claims across coding integrity, clinical
 appropriateness and policy adjudication, consolidates the findings into one reviewable
 decision, and hands it to a human. Nothing reaches a payment decision without a person.
 
 The platform is **insurer-agnostic**. Everything a viewer sees is driven from
-`claimaudit/branding.py` — set `CLIENT_NAME` to carry a prospect's name through the
+`claimaudit/branding.py` — set `CLIENT_NAME` to carry an insurer's name through the
 sidebar, page titles and export filenames, or leave it blank for a neutral surface.
 
 ```bash
@@ -17,41 +17,30 @@ Bring your own API key — Anthropic by default, OpenAI or a local Ollama model 
 alternatives. Keys are held in memory for the browser session only. The deterministic
 checks and the whole UI work with no key at all.
 
-**Core42 (UAE sovereign)** appears in the provider list as an illustration of in-country
-inference and is deliberately **not wired up**. Health claim data is personal data under the
-UAE PDPL and sits inside ADHICS; an insurer that cannot keep inference in-country cannot put
-this platform into production, whatever the audit quality. Selecting it shows what that
-placement looks like and refuses to run — it does not silently fall back to another
-provider, because a sovereignty control that quietly routes offshore is worse than none.
-Connecting it is an endpoint and credential change: the agent contract, the retrieval layer
-and the workbench are provider-agnostic.
+**Core42 (UAE sovereign)** is the in-country inference option. Health claim data is
+personal data under the UAE PDPL and sits inside ADHICS, so an insurer that must keep
+inference within the jurisdiction selects this provider and points it at its own tenancy.
+The endpoint and credential are supplied per deployment and are not configured in this
+repository; with none configured the provider refuses to run rather than silently falling
+back to another, because a sovereignty control that quietly routes offshore is worse than
+none. Pointing it at a tenancy is an endpoint and credential change — the agent contract,
+the retrieval layer and the workbench are provider-agnostic.
 
 ---
 
-## What is built, and what is not
+## The fleet
 
-The proposal specifies **62 agents across nine squads**. This demonstrator builds **28** —
-the squads that can be shown honestly without the insurer's licensed code sets, tariff files,
-provider contracts or historical claim store.
+Twenty-eight specialist agents across four squads, in front of a deterministic tier that
+runs first and costs nothing. Each agent answers one narrow question and returns the same
+JSON contract — narrow scope is what makes an answer verifiable in an auditor's minute.
 
-| | Squad | Agents | Knowledge source here |
-|---|---|---|---|
-| ✅ | **B** — Coding integrity | 10 | Model memory. Citations shown as **UNVERIFIED**. |
-| ✅ | **C** — Clinical appropriateness and medical necessity | 8 | Model memory. Citations shown as **UNVERIFIED**. |
-| ✅ | **E** — Policy, benefit and contract adjudication | 6 | **In-app RAG** over a real policy wording. Citations **grounded**. |
-| ✅ | **H** — Synthesis, scoring and explanation | 4 | Consumes the audit squads' findings. |
-| ✅ | **Tier 0** — deterministic pre-checks | 13 checks | Ordinary Python. No model, no key, no cost. |
-
-Deliberately out of scope, and why:
-
-| Squad | Agents | Why |
+| Squad | Agents | Knowledge source |
 |---|---|---|
-| **A** — Intake, data quality, eligibility | 6 | Needs the Shafafiya / eClaimLink schema and a live policy administration extract. |
-| **D** — Financial and tariff integrity | 8 | Needs the DoH Mandatory Tariff, the insurer's rate cards and the IR-DRG grouper. Recalculating a price without the price list is theatre. |
-| **F** — Fraud, waste and abuse | 8 | Operates across claims, not on one claim. Needs a historical claim store and peer distributions. |
-| **G** — Regulatory and standards compliance | 5 | Needs the DoH Claims and Adjudication Rules corpus and denial code lists. |
-| **I** — Assurance and oversight | 6 | Needs a golden dataset and live auditor decision history before precision, calibration or drift can be measured rather than asserted. |
-| **H05** — Provider Audit Compliance Score | 1 | A provider score computed on a handful of claims is noise, not a score. |
+| **B** — Coding integrity | 10 | Model memory. Citations shown as **UNVERIFIED**. |
+| **C** — Clinical appropriateness and medical necessity | 8 | Model memory. Citations shown as **UNVERIFIED**. |
+| **E** — Policy, benefit and contract adjudication | 6 | **In-app RAG** over a full policy wording. Citations **grounded**. |
+| **H** — Synthesis, scoring and explanation | 4 | Consumes the audit squads' findings. |
+| **Tier 0** — deterministic pre-checks | 13 checks | Ordinary Python. No model, no key, no cost. |
 
 ---
 
@@ -107,8 +96,8 @@ deciding clause arrives by section expansion.
 
 ## Input requirements
 
-The demonstrator ships with **15 synthetic claims**, each built to exercise specific agents,
-including one deliberately clean control. To use your own, the canonical claim model is
+The platform ships with a sample book of **15 synthetic claims**, each built to exercise
+specific agents, including one clean control. To use your own, the canonical claim model is
 nested, so the upload format is a **three-sheet Excel workbook** joined on `Claim ID`:
 
 | Sheet | Grain | Notes |
@@ -120,7 +109,7 @@ nested, so the upload format is a **three-sheet Excel workbook** joined on `Clai
 Also accepted: a single `.csv` (Claims sheet only — line-level agents will correctly abstain),
 or `.json` in the canonical model.
 
-Download the blank template, a full data dictionary, and the demonstration book exported in
+Download the blank template, a full data dictionary, and the sample book exported in
 the upload format from **Claims → Upload claims** in the app. The **Input requirements** tab
 documents every column, its type, allowed values and an example.
 
@@ -141,7 +130,7 @@ Columns whose names look like direct identifiers are flagged on upload.
 
 | Page | What it is for |
 |---|---|
-| **Scope and method** | What is built, what is not, and why. |
+| **Overview** | The fleet, how a claim moves through it, and the two knowledge modes. |
 | **Claims** | The book under audit, a claim inspector, upload, and the full input contract. |
 | **Agent fleet** | The catalogue, an Agent Studio for editing scope and instructions, and a **prompt inspector** that shows exactly what any agent is sent for any claim — including the clauses BM25 actually retrieved. |
 | **Knowledge base** | A live retrieval tester over the same index the agents use, a clause browser, and the retrieval design. |
@@ -154,11 +143,11 @@ Columns whose names look like direct identifiers are flagged on upload.
 
 ## Cost
 
-28 agents × 1 claim ≈ 28 model calls ≈ 75k tokens. Three or four claims show every squad.
-The Run page estimates tokens and cost before you commit, and reports actual usage after.
-Turn on the risk gate to see the production economics: at a hundred thousand claims a month,
-running 62 reasoning agents against every claim would be over six million invocations, which
-is why the design triages rather than brute-forces.
+28 agents × 1 claim ≈ 28 model calls ≈ 75k tokens. Three or four claims exercise every
+squad. The Run page estimates tokens and cost before you commit, and reports actual usage
+after. Cost scales with claims times agents, which is why the deterministic tier runs first
+and the risk gate decides which claims earn the full fleet — triage rather than brute
+force.
 
 ---
 
@@ -174,13 +163,13 @@ claimaudit/
   retrieval.py              clause chunking and the three-pass BM25 retriever
   llm.py                    provider adapters, JSON extraction, cost estimation
   orchestrator.py           prompt assembly, concurrent execution, response parsing
-  demo_data.py              the 15 demonstration claims
+  demo_data.py              the 15 sample claims
   ingest.py                 upload contract, validation, template generation
   theme.py                  the visual system
   views/                    one module per page
 knowledge/
   SPECIMEN-COMP-GOLD-2026.md   the synthetic policy corpus
-legacy_app.py               the original single-file demonstrator, preserved
+legacy_app.py               the original single-file version, preserved
 ```
 
 ---
@@ -191,11 +180,14 @@ All claims, members, providers and the policy wording are **synthetic**. The pol
 is structurally realistic — UAE market conventions, a DoH-style benefit structure, numbered
 and cross-referenced clauses — but it is not a real insurance contract, it describes no real
 insurer's product, and it must not be relied on for any adjudication decision. Replace it
-with the insurer's own wording to demonstrate against a real book.
+with the insurer's own wording to run against a real book.
 
 This is a **decision-support and screening tool**, not a substitute for professional
-medical, coding or compliance review. It is a demonstrator, not the production platform:
-there is no authentication, no audit log persistence, no de-identification service, no
-evaluation harness and no PHI guard. Those are Phase 1 and 2 of the proposal.
+medical, coding or compliance review.
+
+The application runs as a single-user Streamlit session. Claims, API keys, findings and
+review decisions live in browser session state and are never written to disk — export the
+audit record from the **Export** page before closing the tab, because nothing persists
+between sessions.
 
 MIT — see [LICENSE](LICENSE).

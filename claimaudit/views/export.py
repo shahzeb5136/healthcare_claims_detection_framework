@@ -166,7 +166,7 @@ def render() -> None:
     with d3:
         payload = {
             "generated_at": datetime.now().isoformat(timespec="seconds"),
-            "platform": "Agentic Medical Claims Audit — demonstrator",
+            "platform": "Agentic Medical Claims Audit",
             "provider": st.session_state.llm.provider,
             "model": st.session_state.llm.model,
             "claims": [

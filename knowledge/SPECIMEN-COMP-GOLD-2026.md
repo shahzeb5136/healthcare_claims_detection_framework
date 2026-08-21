@@ -8,7 +8,7 @@
 **Issued by:** Specimen Health Insurance Company PJSC
 **Regulatory basis:** Department of Health – Abu Dhabi (DoH) Basic Product and Enhanced Product rules; UAE Insurance Authority Health Insurance Regulations
 
-> DEMONSTRATION DOCUMENT. This wording is synthetic and was authored for the Agentic Medical Claims Audit Platform demonstrator. It is structurally realistic — UAE market conventions, a DoH-style benefit structure, numbered and cross-referenced clauses — but it is not a real insurance contract, it describes no real insurer's product, and it must not be relied on for any adjudication decision. Replace it with the insurer's own wording to demonstrate against a real book.
+> SYNTHETIC DOCUMENT. This wording was authored for the Agentic Medical Claims Audit Platform. It is structurally realistic — UAE market conventions, a DoH-style benefit structure, numbered and cross-referenced clauses — but it is not a real insurance contract, it describes no real insurer's product, and it must not be relied on for any adjudication decision. Replace it with the insurer's own wording to run against a real book.
 
 ---
 

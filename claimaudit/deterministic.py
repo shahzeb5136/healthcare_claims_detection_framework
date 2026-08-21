@@ -26,8 +26,8 @@ _ICD10 = re.compile(r"^[A-TV-Z][0-9][0-9AB](?:\.[0-9A-TV-Z]{1,4})?$")
 _CPT = re.compile(r"^(?:\d{5}|\d{4}[A-Z])$")
 _HCPCS = re.compile(r"^[A-V]\d{4}$")
 
-# Quantity ceilings by code family — a coarse stand-in for the MUE tables, which
-# the demonstrator does not license.
+# Quantity ceilings by code family — a coarse, licence-free stand-in for the MUE
+# tables.
 _QTY_CEILING = {
     "surgical": 2,     # 10000–69999
     "radiology": 4,    # 70000–79999

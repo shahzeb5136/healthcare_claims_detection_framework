@@ -26,7 +26,7 @@ def render(corpus) -> None:
     words = len(corpus.raw.split())
     theme.tiles(
         [
-            ("Documents", "1", "the demonstration corpus"),
+            ("Documents", "1", "the loaded policy wording"),
             ("Clauses indexed", str(len(corpus.chunks)), "one chunk per numbered clause"),
             ("Sections", str(len(corpus.sections)), "definitions through termination"),
             ("Words", f"{words:,}", "full wording, not a summary"),
@@ -184,13 +184,10 @@ def render(corpus) -> None:
             )
 
         theme.notice(
-            "<strong>Where this goes in production.</strong> The corpus grows to the DoH "
-            "Claims and Adjudication Rules, the Mandatory Tariff, the Drug List, the licensed "
-            "code sets, the clinical guideline library and every product wording the insurer issues — "
-            "served by hybrid retrieval over Databricks AI Search, with sources versioned on "
-            "acquisition and superseded content quarantined rather than overwritten, and a "
-            "currency sentinel blocking agents from citing content once a replacement is in "
-            "force. The agent contract does not change.",
+            "<strong>The corpus is not fixed at one wording.</strong> Every document indexed "
+            "here is chunked on clause boundaries and addressed by locator, so adding a "
+            "second product wording — or a rules manual, or a drug list — adds clauses the "
+            "same agents retrieve and cite the same way. The agent contract does not change.",
             kind="info",
         )
 
@@ -202,8 +199,8 @@ def render(corpus) -> None:
             f"effective {corpus.effective_from} · {words:,} words"
         )
         theme.notice(
-            "<strong>Synthetic document.</strong> This wording was authored for the "
-            "demonstrator. It is structurally realistic — UAE market conventions, DoH-style "
+            "<strong>Synthetic document.</strong> This wording was authored for this "
+            "platform. It is structurally realistic — UAE market conventions, DoH-style "
             "benefit structure, numbered clauses — but it is not a real insurance contract "
             "and must not be relied on for any adjudication decision."
         )

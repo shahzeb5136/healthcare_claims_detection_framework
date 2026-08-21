@@ -1,18 +1,18 @@
 """
-Synthetic demonstration claims.
+The synthetic sample book.
 
 Fifteen claims, each built to exercise a specific part of the fleet, plus one
-deliberately clean claim so the demonstration shows the agents returning
-no_finding rather than only showing them finding things. Specificity matters as
-much as sensitivity: an audit system that flags everything is not an audit system.
+clean claim so the book also shows the agents returning no_finding rather than
+only showing them finding things. Specificity matters as much as sensitivity: an
+audit system that flags everything is not an audit system.
 
 `demo_note` on each claim records what it was built to exercise. It is shown in
 the UI as "what to look for" and is NEVER included in anything sent to an agent —
 see Claim.to_agent_context(), which does not read it.
 
 Every member is a surrogate key with an age band. No synthetic person has a name,
-an Emirates ID, a passport number or a date of birth, because the production
-platform would not send those across the model boundary either.
+an Emirates ID, a passport number or a date of birth, because none of those cross
+the model boundary.
 """
 
 from __future__ import annotations
@@ -240,8 +240,8 @@ def build_demo_claims() -> list[Claim]:
                 "Built for B06 (obstetric delivery codes billed against a male member in the 45-49 "
                 "age band), B03 (diagnosis/procedure coherence), and T0-09 (the diagnosis 'Z3490' "
                 "is not a well-formed ICD-10 code — the decimal point is missing). The mismatch "
-                "between the membership record and the attached document is the kind of signal "
-                "Squad F would pursue as possible card misuse; Squad F is out of scope here."
+                "between the membership record and the attached document is also the kind of "
+                "signal a human auditor should read as possible card misuse."
             ),
             **_PLAN,
         )
@@ -301,7 +301,7 @@ def build_demo_claims() -> list[Claim]:
                 "Pre-authorisation PA-2026-101884 was issued for CPT 30520 only."
             ),
             demo_note=(
-                "The core Squad E demonstration. E01 must read §1.3 (cosmetic), §1.10 "
+                "The core Squad E case. E01 must read §1.3 (cosmetic), §1.10 "
                 "(reconstructive requires documented functional impairment) and §8.2 together and "
                 "conclude that the rhinoplasty component is excluded while the septoplasty is not — "
                 "which is exactly the ambiguous case a rule engine mishandles. Also E04 (§6.3: the "

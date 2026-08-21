@@ -1,4 +1,4 @@
-"""Claims — load the demonstration book, or upload your own in the required format."""
+"""Claims — load the sample book, or upload your own in the required format."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ def render(goto) -> None:
     theme.page_header(
         "Claims",
         "The book under audit",
-        "Use the fifteen synthetic demonstration claims, or upload your own in the format "
+        "Use the fifteen synthetic sample claims, or upload your own in the format "
         "below. Uploaded claims are held in memory for this browser session only and are "
         "never written to disk.",
     )
@@ -52,8 +52,8 @@ def _render_book(goto) -> None:
     source = st.session_state.get("claims_source", "demo")
 
     if not claims:
-        st.warning("No claims loaded. Upload a workbook, or restore the demonstration book.")
-        if st.button("Load the demonstration book"):
+        st.warning("No claims loaded. Upload a workbook, or restore the sample book.")
+        if st.button("Load the sample book"):
             st.session_state.claims = build_demo_claims()
             st.session_state.claims_source = "demo"
             st.session_state.results = {}
@@ -66,7 +66,7 @@ def _render_book(goto) -> None:
 
     theme.tiles(
         [
-            ("Claims", str(len(claims)), "demonstration book" if source == "demo" else "uploaded"),
+            ("Claims", str(len(claims)), "sample book" if source == "demo" else "uploaded"),
             ("Gross billed", theme.money_short(gross), "across the book"),
             ("Service lines", str(lines), "line-level findings attach here"),
             ("Inpatient / day case", str(inpatient), "higher tier by default"),
@@ -217,7 +217,7 @@ def _render_book(goto) -> None:
     if claim.demo_note:
         st.markdown(
             f'<div class="notice"><strong>What this claim was built to exercise.</strong> '
-            f"{theme.esc(claim.demo_note)}<br><em>This note is demonstration metadata. It is "
+            f"{theme.esc(claim.demo_note)}<br><em>This note is sample metadata. It is "
             f"never included in anything sent to an agent.</em></div>",
             unsafe_allow_html=True,
         )
@@ -251,12 +251,12 @@ def _render_upload() -> None:
         )
     with c2:
         st.download_button(
-            "Download the demonstration book (.xlsx)",
+            "Download the sample book (.xlsx)",
             data=build_demo_workbook(build_demo_claims()),
-            file_name=branding.export_name("demonstration_claims"),
+            file_name=branding.export_name("sample_claims"),
             mime=XLSX_MIME,
             use_container_width=True,
-            help="The fifteen demonstration claims exported in the upload format — the "
+            help="The fifteen sample claims exported in the upload format — the "
                  "quickest way to see a correctly filled workbook.",
         )
 
@@ -314,8 +314,8 @@ def _render_upload() -> None:
                 st.rerun()
 
     st.markdown("---")
-    st.markdown("##### Restore the demonstration book")
-    if st.button("Reload the fifteen demonstration claims"):
+    st.markdown("##### Restore the sample book")
+    if st.button("Reload the fifteen sample claims"):
         st.session_state.claims = build_demo_claims()
         st.session_state.claims_source = "demo"
         st.session_state.results = {}
@@ -373,7 +373,7 @@ def _render_format() -> None:
             "Squad C reads this field to judge medical necessity, guideline concordance, "
             "length of stay, indication and dosing. A one-line note produces "
             "<code>insufficient_evidence</code>, not a finding — which is the correct "
-            "behaviour, but it is not a demonstration of anything. Paste the real clinical "
+            "behaviour, but it tells you nothing about the claim. Paste the real clinical "
             "record extract.",
         )
     with d2:
@@ -418,8 +418,7 @@ def _render_format() -> None:
         "`insufficient_evidence`.\n"
         "- **`.json`** — the canonical model directly, as a list of claim objects or "
         "`{\"claims\": [...]}`. Each claim may carry nested `activities` and `diagnoses` "
-        "arrays. This is the shape the production platform would receive from the Silver "
-        "layer."
+        "arrays. This is the shape to emit from an upstream claims pipeline."
     )
 
     st.markdown("#### Validation performed on upload")

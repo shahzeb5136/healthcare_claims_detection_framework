@@ -1,11 +1,11 @@
-"""Scope and method — what this demonstrator is, and what it deliberately is not."""
+"""Overview — what the platform is, and how a claim moves through it."""
 
 from __future__ import annotations
 
 import streamlit as st
 
 from .. import branding, theme
-from ..catalogue import OUT_OF_SCOPE, SQUADS
+from ..catalogue import SQUADS
 
 
 def render(corpus, goto) -> None:
@@ -15,20 +15,20 @@ def render(corpus, goto) -> None:
     theme.page_header(
         branding.eyebrow(),
         "A fleet of specialist agents, and a human who decides",
-        "The production platform decomposes the medical audit function into 62 agents across "
-        "nine squads. This demonstrator builds 28 of them — the squads that can be shown "
-        "honestly without the insurer's licensed code sets, tariff files, provider contracts or "
-        "historical claim store. Nothing here reaches a payment decision without a person.",
+        "The platform decomposes the medical audit function into twenty-eight specialist "
+        "agents across four squads — coding integrity, clinical appropriateness, policy "
+        "adjudication, and the synthesis that turns their findings into one reviewable "
+        "decision. Nothing here reaches a payment decision without a person.",
     )
 
     theme.tiles(
         [
-            ("Agents built", str(len(fleet)), "of 62 specified"),
-            ("Squads", "4", "B, C, E and part of H"),
+            ("Agents in the fleet", str(len(fleet)), "one question each"),
+            ("Squads", "4", "B, C, E and H"),
             ("Deterministic checks", "13", "Tier 0, no model calls"),
             ("Policy clauses indexed", str(len(corpus.chunks)) if corpus else "0",
              "retrievable by Squad E"),
-            ("Demonstration claims", str(len(claims)), "synthetic, one clean control"),
+            ("Sample claims", str(len(claims)), "synthetic, one clean control"),
         ]
     )
 
@@ -67,7 +67,7 @@ def render(corpus, goto) -> None:
             "Nothing has effect until they do.",
         )
 
-    st.markdown("## What is built here")
+    st.markdown("## The four squads")
 
     for code in ("B", "C", "E", "H"):
         meta = SQUADS[code]
@@ -102,42 +102,20 @@ def render(corpus, goto) -> None:
             unsafe_allow_html=True,
         )
 
-    st.markdown("## What is deliberately not built, and why")
-    theme.notice(
-        "An agent that cannot cite the rule it relies on produces an opinion, not an audit "
-        "finding. Each squad below needs a corpus, a contract or a claim history that this "
-        "demonstrator does not have — so it is left out rather than faked.",
-        kind="info",
-    )
-
-    rows = "".join(
-        f"<tr><td class='mono'>{theme.esc(o['squad'])}</td>"
-        f"<td><strong>{theme.esc(o['name'])}</strong></td>"
-        f"<td class='num'>{o['agents']}</td>"
-        f"<td style='color:{theme.INK_SOFT}'>{theme.esc(o['why'])}</td></tr>"
-        for o in OUT_OF_SCOPE
-    )
-    st.markdown(
-        f'<div class="ca-panel"><div class="ca-panel-body lines">'
-        f"<table><thead><tr><th>Squad</th><th>Domain</th><th>Agents</th>"
-        f"<th>Why it is out of scope here</th></tr></thead>"
-        f"<tbody>{rows}</tbody></table></div></div>",
-        unsafe_allow_html=True,
-    )
-
     st.markdown("## The two knowledge modes, side by side")
     k1, k2 = st.columns(2)
     with k1:
         st.markdown(
             f'<div class="ca-card" style="border-top:3px solid #B4530A">'
             f"<h4>Squads B and C — model memory</h4>"
-            f"<p>The ICD-10, CPT and HCPCS code sets are licensed products and the "
-            f"regulator's manuals are not in this repository, so these agents reason from "
-            f"the model's own knowledge of coding and clinical practice. Anything they cite "
+            f"<p>The ICD-10, CPT and HCPCS code sets are licensed products, so these agents "
+            f"reason from the model's own knowledge of coding and clinical practice. "
+            f"Anything they cite "
             f"is shown to the auditor marked "
-            f'<span class="pill" style="color:#B4530A;background:#FDF0E4">unverified</span>. '
-            f"In production these agents retrieve from the licensed corpora and agent I01 "
-            f"suppresses any assertion its cited passage does not support.</p></div>",
+            f'<span class="pill" style="color:#B4530A;background:#FDF0E4">unverified</span>, '
+            f"so it is always visible which assertions rest on a retrieved rule and which "
+            f"rest on the model's own knowledge. Point these agents at a licensed corpus and "
+            f"the same contract carries grounded citations instead.</p></div>",
             unsafe_allow_html=True,
         )
     with k2:
@@ -168,7 +146,7 @@ def render(corpus, goto) -> None:
 
     st.markdown("---")
     st.caption(
-        "Demonstrator. All claims, members, providers and the policy wording are synthetic. "
+        "The bundled claims, members, providers and policy wording are synthetic. "
         "Bring your own API key; keys are held in memory for the browser session only. "
         "Decision-support and screening — not a substitute for professional medical, coding "
         "or compliance review."

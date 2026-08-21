@@ -32,7 +32,7 @@ def render() -> None:
 
     theme.tiles(
         [
-            ("Agents in fleet", str(len(fleet)), "of 62 specified"),
+            ("Agents in fleet", str(len(fleet)), "across four squads"),
             ("Enabled", str(len(enabled)), "will run on the next audit"),
             ("Grounded agents", str(len([a for a in fleet if a.knowledge_mode == 'rag_policy'])),
              "Squad E, retrieval-backed"),
@@ -94,12 +94,11 @@ def _catalogue(fleet) -> None:
 def _studio(fleet) -> None:
     st.markdown("### Author, scope and version")
     theme.notice(
-        "In production the Agent Studio is gated: a draft agent runs against saved historical "
-        "claims, is evaluated against its golden-dataset slice for precision, recall and "
-        "calibration, and needs approval from clinical governance and the platform owner "
-        "before it can reach production traffic — with shadow and canary release, and "
-        "one-click rollback. This demonstrator keeps the authoring surface and drops the "
-        "gates, because there is no golden dataset to gate against.",
+        "Edits take effect on the next audit run and are held for this browser session. The "
+        "fleet defaults are never overwritten, so <strong>Reset fleet to default</strong> "
+        "always returns every agent to a known state. Version any agent you change — the "
+        "version string travels with each finding it raises, so any line in the findings "
+        "register can be traced back to the exact instruction that produced it.",
         kind="info",
     )
 

@@ -11,8 +11,7 @@ Why BM25 and not embeddings: a policy wording is a lexical document. The clause
 that decides a case usually contains the words the case is about ("waiting
 period", "sub-limit", "cosmetic"). Lexical retrieval is transparent — the
 auditor can see exactly why a clause surfaced — and needs no model call, no key
-and no service. In production this is replaced by hybrid retrieval over Databricks
-AI Search; the agent contract does not change.
+and no service.
 """
 
 from __future__ import annotations

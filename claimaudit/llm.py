@@ -1,9 +1,9 @@
 """
-Model access for the demonstrator. Bring your own key.
+Model access. Bring your own key.
 
-Anthropic is the default provider. OpenAI and a local Ollama model are kept as
-alternatives so the demonstrator can be shown on a laptop with no outbound
-network, which matters for a data-residency conversation.
+Anthropic is the default provider. OpenAI and a local Ollama model are supported
+alternatives; Ollama runs the fleet on a machine with no outbound network at all,
+which matters where data residency is a hard constraint.
 
 Keys live in Streamlit session state for the life of the browser session. They
 are never written to disk, never logged, and never placed in a URL.
@@ -29,7 +29,7 @@ PROVIDERS = ["Anthropic", "OpenAI", CORE42, "Ollama (local)"]
 ANTHROPIC_MODELS = [
     ("claude-opus-5", "Claude Opus 5 — highest capability, best for clinical judgement"),
     ("claude-sonnet-5", "Claude Sonnet 5 — near-Opus quality, faster and cheaper"),
-    ("claude-haiku-4-5", "Claude Haiku 4.5 — fastest; use for a quick walkthrough"),
+    ("claude-haiku-4-5", "Claude Haiku 4.5 — fastest; use for a quick pass"),
 ]
 
 OPENAI_MODELS = [
@@ -39,16 +39,16 @@ OPENAI_MODELS = [
 ]
 
 # ---------------------------------------------------------------------------
-# Core42 — PLACEHOLDER, NOT WIRED UP
+# Core42 — in-country inference. Requires a tenancy endpoint and credential,
+# which are supplied per deployment and are not configured here.
 #
-# Present so the data-residency conversation can be had on the screen rather
-# than in the margin. Health claim data is personal data under the UAE PDPL and
-# sits inside ADHICS; an insurer that cannot keep inference in-country cannot
-# put this platform into production, whatever the audit quality.
+# Health claim data is personal data under the UAE PDPL and sits inside ADHICS,
+# so an insurer that must keep inference in-country selects this provider and
+# points it at its own Core42 endpoint.
 #
-# Selecting it shows what in-country inference would look like and refuses to
-# run. It deliberately does not silently fall back to another provider — a
-# sovereignty control that quietly routes offshore is worse than none.
+# With no endpoint configured, selecting it refuses to run. It does not silently
+# fall back to another provider — a sovereignty control that quietly routes
+# offshore is worse than none.
 # ---------------------------------------------------------------------------
 
 CORE42_MODELS = [
@@ -59,11 +59,12 @@ CORE42_MODELS = [
 ]
 
 CORE42_NOTE = (
-    "Illustrative only — no calls are made. This entry marks where in-country "
-    "inference would sit: prompts, retrieved policy clauses and generated findings "
-    "stay inside UAE jurisdiction, so claim data never crosses a border to be "
-    "audited. Wiring it up is an endpoint and credential change, not a redesign — "
-    "the agent contract, the retrieval layer and the workbench are provider-agnostic."
+    "No endpoint is configured on this deployment, so no calls are made. This is "
+    "where in-country inference sits: prompts, retrieved policy clauses and "
+    "generated findings stay inside UAE jurisdiction, so claim data never crosses "
+    "a border to be audited. Pointing it at a tenancy is an endpoint and credential "
+    "change — the agent contract, the retrieval layer and the workbench are "
+    "provider-agnostic."
 )
 
 # Indicative USD per 1M tokens, used only for the run-cost estimate shown in the
@@ -146,9 +147,9 @@ def build_client(cfg: LLMConfig) -> Any:
 
     if cfg.provider == CORE42:
         raise ProviderError(
-            "Core42 is shown as an illustration of in-country inference and is not "
-            "connected in this demonstrator. Pick Anthropic, OpenAI or Ollama to run "
-            "the fleet — or run the deterministic checks, which need no provider at all."
+            "No Core42 endpoint is configured on this deployment, so the fleet cannot "
+            "run against it. Pick Anthropic, OpenAI or Ollama to run the fleet — or run "
+            "the deterministic checks, which need no provider at all."
         )
 
     if cfg.provider.startswith("Ollama"):

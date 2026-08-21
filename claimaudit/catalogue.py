@@ -1,29 +1,19 @@
 """
-The agent fleet for the demonstrator.
+The agent fleet.
 
-The proposal specifies 62 agents across nine squads. This demonstrator builds
-28 of them — the squads that can be shown honestly without the insurer's licensed
-code sets, tariff files, provider contracts or historical claim store:
+Twenty-eight specialist agents across four squads. Each answers one narrow
+question and returns the same JSON contract — narrow scope is what makes an
+answer verifiable in an auditor's minute.
 
     Squad B — Coding integrity ................ 10 agents  (knowledge: model memory)
     Squad C — Clinical appropriateness ......... 8 agents  (knowledge: model memory)
     Squad E — Policy, benefit and contract ..... 6 agents  (knowledge: in-app RAG)
     Squad H — Synthesis and explanation ........ 4 agents  (knowledge: upstream findings)
 
-Deliberately out of scope for the demonstrator, and why:
-
-    Squad A — Intake, eligibility ......... needs Shafafiya schema + policy admin extract
-    Squad D — Financial and tariff ........ needs the DoH Mandatory Tariff + provider contracts
-    Squad F — Fraud, waste and abuse ...... operates across claims; needs a historical store
-    Squad G — Regulatory compliance ....... needs the DoH C&A Rules corpus
-    Squad I — Assurance and oversight ..... needs a golden dataset and live decision history
-    H05    — Provider Audit Compliance Score  needs claim volume to be statistically meaningful
-
 KNOWLEDGE MODES
     model_memory  the agent reasons from the model's own knowledge of ICD-10,
                   CPT/HCPCS and clinical practice. Citations it produces are
                   labelled UNVERIFIED and are shown as such in the workbench.
-                  In production these agents retrieve from licensed code sets.
     rag_policy    the agent retrieves clauses from the in-app policy corpus by
                   BM25 and must cite the clause it relied on. Citations are
                   grounded and the retrieved passage is shown to the auditor.
@@ -46,7 +36,7 @@ class AgentSpec:
     squad_name: str
     scope: str                 # the one question this agent answers
     instruction: str           # what goes into the system prompt
-    knowledge_sources: str     # shown in the UI; production sources per the proposal
+    knowledge_sources: str     # shown in the UI: what this agent draws on
     knowledge_mode: str        # model_memory | rag_policy | upstream
     max_severity: str
     pacs_domain: str
@@ -640,7 +630,6 @@ _SQUAD_E: list[AgentSpec] = [
 
 # ==========================================================================
 # SQUAD H — Synthesis, scoring and explanation (4 agents)
-# H05 (Provider Audit Compliance Score) is out of scope for the demonstrator.
 # ==========================================================================
 
 _SQUAD_H: list[AgentSpec] = [
@@ -748,52 +737,3 @@ def by_id(fleet: list[AgentSpec], agent_id: str) -> AgentSpec | None:
         if a.agent_id == agent_id:
             return a
     return None
-
-
-# --------------------------------------------------------------------------
-# What the demonstrator does NOT build, and why. Shown in the UI verbatim.
-# --------------------------------------------------------------------------
-
-OUT_OF_SCOPE = [
-    {
-        "squad": "A",
-        "name": "Intake, data quality and eligibility",
-        "agents": 6,
-        "why": "Needs the Shafafiya / eClaimLink schema and a live policy administration extract "
-               "to validate membership, licensing and encounter structure.",
-    },
-    {
-        "squad": "D",
-        "name": "Financial and tariff integrity",
-        "agents": 8,
-        "why": "Needs the DoH Mandatory Tariff, the insurer's provider contracts and rate cards, and the "
-               "IR-DRG grouper. Recalculating a price without the price list is theatre.",
-    },
-    {
-        "squad": "F",
-        "name": "Fraud, waste and abuse",
-        "agents": 8,
-        "why": "Operates across claims, not on one claim. Needs a historical claim store and peer "
-               "distributions before any outlier statement means anything.",
-    },
-    {
-        "squad": "G",
-        "name": "Regulatory and standards compliance",
-        "agents": 5,
-        "why": "Needs the DoH Claims and Adjudication Rules corpus and the denial code lists.",
-    },
-    {
-        "squad": "I",
-        "name": "Assurance and oversight",
-        "agents": 6,
-        "why": "Needs a golden dataset, live auditor decision history and a source version register "
-               "before precision, calibration or drift can be measured rather than asserted.",
-    },
-    {
-        "squad": "H05",
-        "name": "Provider Audit Compliance Score",
-        "agents": 1,
-        "why": "A provider score computed on a handful of claims is not a score, it is noise. PACS "
-               "needs volume and confirmed outcomes before it can survive being challenged.",
-    },
-]

@@ -1,10 +1,8 @@
 """
 Canonical claim model and the uniform agent output contract.
 
-The shapes here follow Appendix B (canonical claim model) and Appendix C
-(agent output schema) of the platform proposal. Everything is plain dataclasses
-and dicts — no ORM, no database. A demo run holds the whole book of claims in
-session state.
+Everything here is plain dataclasses and dicts — no ORM, no database. A run
+holds the whole book of claims in session state.
 """
 
 from __future__ import annotations
@@ -180,8 +178,8 @@ class Claim:
         """Render the claim as the de-identified text block an agent reads.
 
         Nothing here is a direct personal identifier: the member is a surrogate
-        key with an age band and gender, matching Zone 2 of the proposal's
-        trust-zone model.
+        key with an age band and gender, so no agent ever sees a name, an
+        Emirates ID or a date of birth.
         """
         band_lo = (self.member_age // 5) * 5
         age_band = f"{band_lo}-{band_lo + 4}" if self.member_age < 90 else "90+"

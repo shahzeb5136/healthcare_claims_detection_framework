@@ -31,7 +31,7 @@ def render(corpus, goto) -> None:
     cfg = st.session_state.llm
 
     if not claims:
-        st.warning("No claims loaded. Go to Claims to load the demonstration book or upload your own.")
+        st.warning("No claims loaded. Go to Claims to load the sample book or upload your own.")
         return
 
     enabled = [a for a in fleet if a.enabled]
@@ -84,9 +84,9 @@ def render(corpus, goto) -> None:
         use_gate = st.toggle(
             "Apply the risk gate",
             value=False,
-            help="Off: every selected claim gets the full fleet — clearest for a "
-                 "walkthrough. On: only claims at or above the threshold get agentic "
-                 "review, plus a sampled slice of the rest.",
+            help="Off: every selected claim gets the full fleet — the clearest view of "
+                 "what the fleet does. On: only claims at or above the threshold get "
+                 "agentic review, plus a sampled slice of the rest.",
         )
         threshold = st.slider("Gate threshold (risk score)", 0, 100, 30, disabled=not use_gate)
         run_synth = st.toggle(
@@ -129,15 +129,15 @@ def render(corpus, goto) -> None:
     if n_calls > 200:
         theme.notice(
             f"<strong>{n_calls:,} model calls.</strong> That is a real bill and a real wait. "
-            "For a walkthrough, three or four claims show every squad. Turn the risk gate on "
-            "to see how the production economics work at volume."
+            "Three or four claims exercise every squad. Turn the risk gate on to spend the "
+            "budget on the claims that earn it."
         )
 
     st.caption(
         "This is an estimate from typical prompt sizes, not a quote. Actual usage is "
-        "reported after the run. At a hundred thousand claims a month, running sixty-two "
-        "reasoning agents against every claim would be over six million invocations — which "
-        "is why the production design triages rather than brute-forces."
+        "reported after the run. Cost scales with claims times agents, which is why the "
+        "deterministic tier runs first and the risk gate decides which claims earn the "
+        "full fleet — triage rather than brute force."
     )
 
     # ------------------------------------------------------------------- run
@@ -157,8 +157,7 @@ def render(corpus, goto) -> None:
             kind="info",
         )
         problems.append(
-            "Core42 is illustrative in this demonstrator and makes no calls. Switch "
-            "provider to run the fleet, or use the deterministic checks below."
+            "Switch provider to run the fleet, or use the deterministic checks below."
         )
         ready = False
     elif cfg.provider in ("Anthropic", "OpenAI") and not cfg.api_key:

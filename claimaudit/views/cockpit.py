@@ -157,9 +157,9 @@ def render(goto) -> None:
     # --------------------------------------------------------- fleet activity
     st.markdown("### Which agents are doing the work")
     st.caption(
-        "Precision per agent is what the assurance layer measures in production. Here it is "
-        "raw activity — but a squad that never returns no_finding is a squad worth "
-        "interrogating."
+        "This is raw activity, not precision — an agent that raises a lot is not "
+        "necessarily an agent that is right. A squad that never returns no_finding is a "
+        "squad worth interrogating."
     )
 
     agent_rows: dict[str, dict] = {}

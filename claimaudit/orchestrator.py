@@ -121,10 +121,9 @@ _SELF_CHECK = """Before you return, check three things:
    clinical record or a cited rule — rather than by an assumption you made?"""
 
 _KNOWLEDGE_MEMORY = """KNOWLEDGE SOURCE — IMPORTANT
-In production you would retrieve from the licensed code sets and the regulator's manuals,
-and every normative claim would carry a verified citation. In this demonstrator those
-corpora are not loaded, so you are reasoning from your own knowledge of ICD-10, CPT/HCPCS
-and clinical practice.
+No licensed code set or regulator's manual is loaded for this agent, so you are reasoning
+from your own knowledge of ICD-10, CPT/HCPCS and clinical practice rather than from a
+retrieved passage.
 
 Because of that: state the rule you are relying on and where it comes from, but do not
 invent a clause number, a page reference or a version you are not sure of. If you cannot
@@ -569,7 +568,7 @@ def run_book(
         if options.use_risk_gate and score < options.gate_threshold:
             # Sampling quota: a triage design that only ever examines what it
             # already thinks is risky cannot detect the risk it has learned to
-            # ignore. Deterministic sample so a demo is reproducible.
+            # ignore. Deterministic sample so a run is reproducible.
             sampled = (idx % max(1, int(round(1 / max(options.sample_rate_low_risk, 0.01))))) == 0
             run_agents = sampled
             res.consolidation["risk"]["gated"] = not sampled

@@ -196,7 +196,7 @@ def _pane_context(claim, res) -> None:
             for doc in claim.attachments:
                 st.markdown(f"- {doc}")
     if claim.demo_note:
-        with st.expander("Demonstration note — what this claim tests", expanded=False):
+        with st.expander("Sample note — what this claim tests", expanded=False):
             st.caption(claim.demo_note)
             st.caption(
                 "This note is never sent to an agent. It exists so you can check the fleet "
@@ -239,7 +239,7 @@ def _pane_findings(claim, res) -> None:
                     f.reviewer_note = ""
                     st.session_state[f"note_{f.key}"] = ""
                 else:
-                    f.decided_by = "demo.auditor"
+                    f.decided_by = "auditor"
                     f.decided_ts = stamp
 
         b1, b2, b3 = st.columns(3)
@@ -388,7 +388,7 @@ def _finding_card(f) -> None:
     f.reviewer_note = note
     f.amended_exposure_aed = amended if choice == "amended" else None
     if choice != "pending" and (changed or not f.decided_ts):
-        f.decided_by = "demo.auditor"
+        f.decided_by = "auditor"
         f.decided_ts = datetime.now().isoformat(timespec="seconds")
     if choice == "pending":
         f.decided_by = ""
@@ -481,9 +481,9 @@ def _pane_decision(claim, res) -> None:
         )
     if escalated:
         theme.notice(
-            f"{len(escalated)} finding(s) escalated. In production these route to the "
-            "clinical queue or the special investigations unit with the clinical question "
-            "stated and the evidence assembled.",
+            f"{len(escalated)} finding(s) escalated — routed to the clinical queue or the "
+            "special investigations unit with the clinical question stated and the evidence "
+            "assembled.",
             kind="info",
         )
     if res.review_complete:
@@ -508,7 +508,7 @@ def _pane_decision(claim, res) -> None:
             "deduction_aed": deduction,
             "settlement_aed": settlement,
             "authority": _authority(deduction),
-            "decided_by": "demo.auditor",
+            "decided_by": "auditor",
             "decided_ts": datetime.now().isoformat(timespec="seconds"),
             "findings_accepted": len(accepted),
             "findings_rejected": len(
@@ -672,6 +672,5 @@ def _synthesis_tabs(res) -> None:
             st.caption(
                 "The provider-facing text must state the finding, the rule and the evidence "
                 "without disclosing internal risk scoring, agent identifiers or confidence "
-                "values. In production this is enforced by a guard agent, not by prompt "
-                "instruction alone."
+                "values. Read it before it leaves the building."
             )
